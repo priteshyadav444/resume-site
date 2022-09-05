@@ -66,3 +66,7 @@ node_modules/
 .env
 
 /conocial/*
+/public/*
+.firebaserc
+firebase.json
+google4015cbc3e3198127.html
