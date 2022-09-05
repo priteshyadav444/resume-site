@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+
+
+<url>
+  <loc>https://priteshyadav444.in/</loc>
+  <lastmod>2022-09-03T18:08:41+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://priteshyadav444.in/index.html</loc>
+  <lastmod>2022-09-03T18:08:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://priteshyadav444.in/project.html</loc>
+  <lastmod>2022-09-03T18:08:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://priteshyadav444.in/404.html</loc>
+  <lastmod>2022-09-03T18:08:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://priteshyadav444.in/priteshyadav444.pdf</loc>
+  <lastmod>2022-09-03T18:08:41+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+</urlset>

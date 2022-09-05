@@ -1,0 +1,17 @@
+{
+    "short_name": "Pritesh Yadav",
+    "name": "Pritesh Yadav",
+    "icons": [
+    {
+    "src": "favicon.ico",
+    "sizes": "48x48",
+    "type": "image/png",
+    "purpose": "maskable any"
+    }
+    ],
+    "start_url": "/",
+    "background_color": "#fff",
+    "theme_color": "#066cf2",
+    "display": "standalone",
+    "orientation": "portrait"
+    }
