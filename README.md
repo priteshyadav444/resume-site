@@ -1,3 +1,3 @@
 # resume-site
 Personal  Website <br>
-priteshyadav444.in/
+https://priteshyadav444.in/
