@@ -112,33 +112,168 @@ function setupNavActiveLink() {
 // ============================================
 function setupContactForm() {
   const form = document.getElementById('contactForm');
+  const submitBtn = form.querySelector('button[type="submit"]');
   
   if (!form) return;
   
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     // Get form data
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const subject = document.getElementById('subject').value;
-    const message = document.getElementById('message').value;
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
     
     // Validate
     if (!name || !email || !subject || !message) {
-      alert('Please fill in all fields');
+      showNotification('Please fill in all fields', 'error');
       return;
     }
     
-    // Create mailto link
-    const mailtoLink = `mailto:priteshyadav2015@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+    if (!isValidEmail(email)) {
+      showNotification('Please enter a valid email address', 'error');
+      return;
+    }
     
-    // Open default email client
-    window.location.href = mailtoLink;
+    // Disable submit button
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
     
-    // Reset form
-    form.reset();
+    try {
+      // Try multiple API options
+      const success = await sendEmail({
+        name: name,
+        email: email,
+        subject: subject,
+        message: message
+      });
+      
+      if (success) {
+        showNotification('Message sent successfully! I\'ll get back to you soon. 🚀', 'success');
+        form.reset();
+      } else {
+        // Fallback to mailto
+        const mailtoLink = `mailto:priteshyadav2015@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+        window.location.href = mailtoLink;
+        showNotification('Opening your email client...', 'info');
+      }
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      showNotification('Something went wrong. Please try again or email directly.', 'error');
+    } finally {
+      // Re-enable submit button
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
   });
+}
+
+// ============================================
+// Email Sending Function (Multiple API Support)
+// ============================================
+async function sendEmail(formData) {
+  // Option 1: EmailJS (Replace with your actual EmailJS credentials)
+  try {
+    if (typeof emailjs !== 'undefined') {
+      const result = await emailjs.send(
+        'YOUR_SERVICE_ID', // Replace with your EmailJS service ID
+        'YOUR_TEMPLATE_ID', // Replace with your EmailJS template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'priteshyadav2015@gmail.com'
+        },
+        'YOUR_PUBLIC_KEY' // Replace with your EmailJS public key
+      );
+      return result.status === 200;
+    }
+  } catch (error) {
+    console.log('EmailJS failed, trying next option...');
+  }
+  
+  // Option 2: Netlify Forms (if hosted on Netlify)
+  try {
+    const response = await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'form-name': 'contact',
+        'name': formData.name,
+        'email': formData.email,
+        'subject': formData.subject,
+        'message': formData.message
+      })
+    });
+    
+    if (response.ok) return true;
+  } catch (error) {
+    console.log('Netlify Forms failed, trying next option...');
+  }
+  
+  // Option 3: Formspree (Replace with your Formspree endpoint)
+  try {
+    const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message
+      })
+    });
+    
+    if (response.ok) return true;
+  } catch (error) {
+    console.log('Formspree failed, trying next option...');
+  }
+  
+  // Option 4: Custom API endpoint
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+    
+    if (response.ok) return true;
+  } catch (error) {
+    console.log('Custom API failed, using fallback...');
+  }
+  
+  return false; // All options failed, will use mailto fallback
+}
+
+// ============================================
+// Utility Functions
+// ============================================
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+function showNotification(message, type) {
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = `alert alert-${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'info'} alert-dismissible fade show position-fixed`;
+  notification.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
+  notification.innerHTML = `
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `;
+  
+  // Add to page
+  document.body.appendChild(notification);
+  
+  // Auto remove after 5 seconds
+  setTimeout(() => {
+    notification.remove();
+  }, 5000);
 }
 
 // ============================================
