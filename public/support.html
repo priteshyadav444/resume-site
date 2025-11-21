@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get fast and reliable customer support for your onboarding, verification, and launching needs. We help businesses launch smoothly with free setup assistance.">
+  <meta name="keywords" content="customer support, onboarding help, verification guidance, technical support, setup assistance, launching support">
+  <title>Customer Support - Free Launching & Setup Help</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="crossorigin" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" />
+  
+  <!-- Styles -->
+  <link href="css/font-awesome/css/all.min.css" rel="stylesheet" />
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/site.css" rel="stylesheet" />
+  
+  <style>
+    .support-page {
+      padding: 80px 0 60px;
+      min-height: calc(100vh - 200px);
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+    }
+    
+    .page-header p {
+      font-size: 1.125rem;
+      color: var(--gray-600);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+    
+    .support-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+    
+    .support-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 8px 20px rgba(99,102,241,0.15);
+    }
+    
+    .support-card h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    
+    .support-card h3 i {
+      font-size: 1.75rem;
+    }
+    
+    .channel-item {
+      background: var(--light);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .channel-item h4 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 0.75rem;
+    }
+    
+    .channel-item ul {
+      margin: 0;
+      padding-left: 1.25rem;
+    }
+    
+    .channel-item li {
+      color: var(--gray-700);
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+    
+    .channel-item a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .channel-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .help-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    .help-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--white);
+      border-radius: 8px;
+      border: 1px solid var(--gray-200);
+      transition: all 0.3s ease;
+    }
+    
+    .help-item:hover {
+      border-color: var(--primary-color);
+      transform: translateX(4px);
+    }
+    
+    .help-item i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      flex-shrink: 0;
+    }
+    
+    .help-item span {
+      color: var(--gray-800);
+      font-weight: 500;
+    }
+    
+    .resource-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      background: var(--white);
+      border-radius: 8px;
+      border: 2px solid var(--gray-200);
+      margin-bottom: 1rem;
+      text-decoration: none;
+      color: var(--gray-900);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .resource-link:hover {
+      border-color: var(--primary-color);
+      background: var(--light);
+      color: var(--primary-color);
+      transform: translateX(8px);
+    }
+    
+    .resource-link i {
+      font-size: 1.25rem;
+    }
+    
+    .priority-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      
+      .support-card {
+        padding: 1.5rem;
+      }
+      
+      .help-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <i class="fas fa-rocket text-primary"></i> Launch Support
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="support.html">Support</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="policies.html">Policies</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="support-page">
+    <div class="container">
+      
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1>Customer Support</h1>
+        <p>
+          We aim to provide fast and reliable support to help businesses launch smoothly. Whether it's verification guidance, 
+          onboarding help, or project setup assistance, our customer support team is always ready to help.
+        </p>
+      </div>
+
+      <!-- Support Channels -->
+      <div class="row">
+        <div class="col-12">
+          <div class="support-card">
+            <h3><i class="fas fa-headset"></i> Support Channels</h3>
+            
+            <div class="channel-item">
+              <h4><i class="fas fa-envelope text-primary"></i> Email Support</h4>
+              <ul>
+                <li><strong>Availability:</strong> 24/7 (Monitored round the clock)</li>
+                <li><strong>Typical Response:</strong> 24–48 hours</li>
+                <li><strong>Email:</strong> <a href="mailto:support@example.com">support@example.com</a></li>
+                <li><strong>Best For:</strong> General inquiries, onboarding questions, setup guidance, technical issues</li>
+              </ul>
+            </div>
+
+            <div class="channel-item">
+              <h4>
+                <i class="fas fa-bolt text-danger"></i> Priority Support 
+                <span class="priority-badge">URGENT</span>
+              </h4>
+              <ul>
+                <li><strong>For:</strong> Urgent onboarding issues, verification blockers, time-sensitive launches</li>
+                <li><strong>Typical Response:</strong> 2–4 hours (during business hours)</li>
+                <li><strong>Email:</strong> <a href="mailto:priority@example.com">priority@example.com</a></li>
+                <li><strong>When to Use:</strong> Only for critical issues affecting your launch timeline</li>
+              </ul>
+              <div class="alert alert-warning mt-2 mb-0">
+                <i class="fas fa-exclamation-triangle"></i> <strong>Note:</strong> Priority support is reserved for urgent, 
+                time-critical matters. For general questions, please use regular email support.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What We Help With -->
+      <div class="row">
+        <div class="col-12">
+          <div class="support-card">
+            <h3><i class="fas fa-life-ring"></i> What We Help With</h3>
+            <p class="text-muted mb-4">
+              Our support team specializes in helping businesses get launched successfully. Here's what we assist with:
+            </p>
+            
+            <div class="help-list">
+              <div class="help-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Stripe-style account verification guidance</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-rocket"></i>
+                <span>Business onboarding support</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-gift"></i>
+                <span>Free launching support</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-plug"></i>
+                <span>Technical integration help</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-bug"></i>
+                <span>Error diagnostics and troubleshooting</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-file-contract"></i>
+                <span>Policy setup guidance</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Compliance documentation assistance</span>
+              </div>
+              
+              <div class="help-item">
+                <i class="fas fa-users"></i>
+                <span>Team onboarding & training</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Self-Service Resources -->
+      <div class="row">
+        <div class="col-12">
+          <div class="support-card">
+            <h3><i class="fas fa-book"></i> Self-Service Resources</h3>
+            <p class="text-muted mb-4">
+              Find answers quickly by exploring our documentation and policy pages:
+            </p>
+            
+            <a href="policies.html#terms" class="resource-link">
+              <span><i class="fas fa-file-alt me-2"></i> Terms of Service</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+            
+            <a href="policies.html#privacy" class="resource-link">
+              <span><i class="fas fa-user-shield me-2"></i> Privacy Policy</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+            
+            <a href="policies.html#refund" class="resource-link">
+              <span><i class="fas fa-undo me-2"></i> Cancellation & Refund Policy</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+            
+            <a href="policies.html#customer-support" class="resource-link">
+              <span><i class="fas fa-headphones me-2"></i> Customer Support Policy</span>
+              <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Support Tips -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="alert alert-info">
+            <h5 class="alert-heading"><i class="fas fa-lightbulb"></i> Tips for Faster Support</h5>
+            <ul class="mb-0">
+              <li>Include relevant details: account info, error messages, screenshots (if applicable)</li>
+              <li>Clearly describe your issue and what you've already tried</li>
+              <li>Check our policy pages first—they answer most common questions</li>
+              <li>Use priority support only for urgent, time-critical matters</li>
+              <li>Be patient—we respond to all emails within stated timeframes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact CTA -->
+      <div class="text-center mt-5 pt-4">
+        <p class="text-muted mb-3">Still need help?</p>
+        <a href="contact.html" class="btn btn-primary btn-lg">
+          <i class="fas fa-envelope"></i> Contact Us Directly
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer bg-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+          <p class="mb-0 text-muted">&copy; 2025 Launch Support Services. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <a href="policies.html" class="text-muted text-decoration-none me-3">Terms</a>
+          <a href="policies.html#privacy" class="text-muted text-decoration-none me-3">Privacy</a>
+          <a href="contact.html" class="text-muted text-decoration-none">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
