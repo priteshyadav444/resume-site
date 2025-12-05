@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>How to integrate powerful APIs into your project</title>
+  <meta name="description" content="A walkthrough showing how to integrate 11 useful APIs — geolocation, currency rates, phone validation, stock data, flight tracking, image moderation and more.">
+  <meta name="keywords" content="APIs, integration, IPStack, Fixer, Marketstack, Numverify">
+  <link rel="canonical" href="https://priteshyadav444.in/blog/sample-post.html">
+
+  <meta property="og:title" content="How to integrate powerful APIs into your project">
+  <meta property="og:description" content="A quick guide to integrating various third-party APIs with examples and best practices.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://priteshyadav444.in/blog/sample-post.html">
+  <meta property="og:image" content="https://priteshyadav444.in/images/og-image.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to integrate powerful APIs into your project">
+  <meta name="twitter:description" content="A quick guide to integrating various third-party APIs with examples and best practices.">
+  <meta name="twitter:image" content="https://priteshyadav444.in/images/og-image.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "How to integrate powerful APIs into your project",
+    "description": "A walkthrough showing how to integrate 11 useful APIs — geolocation, currency rates, phone validation, stock data, flight tracking, image moderation and more.",
+    "author": { "@type": "Person", "name": "Pritesh Yadav" },
+    "publisher": { "@type": "Organization", "name": "Pritesh Yadav", "logo": { "@type": "ImageObject", "url": "https://priteshyadav444.in/images/avatar.jpg" } },
+    "datePublished": "2025-12-06"
+  }
+  </script>
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    .post-hero{ padding:48px 0; border-bottom:1px solid #e6eef8 }
+    .post-content{ padding:36px 0 }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">&lt;PY/&gt; Pritesh Yadav</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../api-showcase.html">APIs</a></li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="post-hero">
+      <h1>How to integrate powerful APIs into your project</h1>
+      <div class="meta">By <strong>Pritesh Yadav</strong> • <time datetime="2025-12-06">Dec 06, 2025</time></div>
+    </header>
+
+    <article class="post-content">
+      <section>
+        <p>This article demonstrates practical examples for integrating multiple APIs into web projects. Use the API showcase page for reference and follow provider docs for API keys and rate limits.</p>
+
+        <h2>Quick tips</h2>
+        <ul>
+          <li>Never embed sensitive API keys in client-side code — use server-side proxies or environment variables.</li>
+          <li>Respect rate limits — cache responses when appropriate.</li>
+          <li>Use proper error handling and user-friendly fallbacks.</li>
+        </ul>
+
+        <h3>Example: IPStack (client-side fetch via server proxy)</h3>
+        <pre style="background:#0f172a;color:#e6eef8;padding:12px;border-radius:6px;overflow:auto;"><code>// Example server endpoint: /api/ipstack?ip=134.201.250.155
+fetch('/api/ipstack?ip=134.201.250.155')
+  .then(r => r.json())
+  .then(data => console.log(data))
+  .catch(err => console.error(err));</code></pre>
+
+        <h3>Further reading</h3>
+        <p>See the <a href="../api-showcase.html">API showcase</a> for more APIs and code snippets.</p>
+      </section>
+    </article>
+
+    <div class="py-4">
+      <a href="index.html" class="btn btn-outline-secondary">Back to Blog</a>
+    </div>
+  </main>
+
+  <script src="../scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>

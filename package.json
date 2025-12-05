@@ -1,0 +1,19 @@
+{
+  "name": "resume-site",
+  "version": "1.0.0",
+  "description": "Personal resume site with blog generator",
+  "main": "index.js",
+  "scripts": {
+    "build-blog": "node scripts/generate-blog-index.js",
+    "build-blog:watch": "nodemon --watch public/blog --ext html --exec \"node scripts/generate-blog-index.js\""
+  },
+  "author": "Pritesh Yadav",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "dayjs": "^1.11.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blog - Pritesh Yadav</title>
+  <meta name="description" content="Blog posts and articles by Pritesh Yadav — development, APIs, tutorials and more.">
+  <meta name="keywords" content="blog, pritesh yadav, development, api, javascript, tutorial">
+  <link rel="canonical" href="https://priteshyadav444.in/blog/">
+
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="../css/site.css">
+  <style>
+    body { font-family: Inter, sans-serif; color: #111827; }
+    .hero { padding: 48px 0; background: linear-gradient(180deg,#eef2ff,white);} 
+    .post-card { border:1px solid #e5e7eb; border-radius:10px; padding:22px; transition:all .18s; }
+    .post-card:hover{ transform:translateY(-6px); box-shadow: 0 12px 30px rgba(17,24,39,0.06); }
+    .meta { color:#6b7280; font-size:0.95rem }
+    .excerpt { color:#374151 }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <a class="navbar-brand" href="../index.html">&lt;PY/&gt; Pritesh Yadav</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="../index.html">Portfolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="../api-showcase.html">APIs</a></li>
+          <li class="nav-item"><a class="nav-link active" href="index.html">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero text-center">
+    <div class="container">
+      <h1 style="font-weight:700; margin-bottom:12px;">Blog</h1>
+      <p class="lead" style="max-width:820px; margin:0 auto;">Articles, tutorials and notes about web development, APIs and practical engineering.</p>
+    </div>
+  </header>
+
+  <main class="container py-5">
+    <div class="row g-4">
+      <!-- Post 1 -->
+      <div class="col-md-6">
+        <article class="post-card">
+          <h2><a href="sample-post.html">How to integrate powerful APIs into your project (example)</a></h2>
+          <div class="meta">Dec 06, 2025 • 6 min read • <span class="badge bg-light text-dark">APIs</span></div>
+          <p class="excerpt">A walkthrough showing how to integrate 11 useful APIs — geolocation, currency rates, phone validation, stock data, flight tracking, image moderation and more. Includes code examples and best practices.</p>
+          <a href="sample-post.html" class="btn btn-sm btn-primary">Read more</a>
+        </article>
+      </div>
+
+      <!-- Add new posts below (duplicate this block) -->
+
+    </div>
+
+    <div class="py-5 text-center">
+      <a href="post-template.html" class="btn btn-outline-primary">Create new post (template)</a>
+    </div>
+  </main>
+
+  <footer class="text-muted py-5" style="background:#0f172a;color:#cbd5e1">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h5 style="color:white">Pritesh Yadav</h5>
+          <p>Software Developer — articles about building things and shipping fast.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <a href="../index.html" style="color:#cbd5e1">Back to portfolio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>

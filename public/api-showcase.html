@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Showcase - Pritesh Yadav | Software Developer</title>
+    <meta name="description" content="Explore 11 powerful APIs for modern web development - IP geolocation, currency exchange, phone validation, stock market data, flight tracking, content moderation, and more.">
+    <meta name="keywords" content="API, REST API, IPStack, Fixer, Numverify, Marketstack, Aviationstack, web development, API integration">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/font-awesome/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/site.css">
+    
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #8b5cf6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --info-color: #06b6d4;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--gray-800);
+            background-color: #ffffff;
+        }
+
+        /* Header Section */
+        .api-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 80px 0 60px;
+            margin-bottom: 60px;
+        }
+
+        .api-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .api-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* API Card Styles */
+        .api-card {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .api-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
+            border-color: var(--primary-color);
+        }
+
+        .api-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .api-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 10px;
+        }
+
+        .api-subtitle {
+            color: var(--gray-600);
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .api-description {
+            color: var(--gray-700);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .api-features {
+            background: var(--gray-50);
+            border-left: 3px solid var(--primary-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .api-features h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 12px;
+        }
+
+        .api-features ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .api-features li {
+            color: var(--gray-700);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .use-case-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-left: 4px solid var(--warning-color);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .use-case-box strong {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .use-case-box p {
+            margin: 5px 0 0 0;
+            color: var(--gray-800);
+            font-size: 0.95rem;
+        }
+
+        .code-example {
+            background: var(--gray-900);
+            color: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-example code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: var(--primary-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .api-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .api-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .api-link:hover {
+            background: var(--primary-dark);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .api-link.secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .api-link.secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .category-badge.geolocation { background: #dbeafe; color: #1e40af; }
+        .category-badge.finance { background: #d1fae5; color: #065f46; }
+        .category-badge.validation { background: #fce7f3; color: #9f1239; }
+        .category-badge.data { background: #e0e7ff; color: #3730a6; }
+        .category-badge.travel { background: #fef3c7; color: #92400e; }
+        .category-badge.security { background: #fee2e2; color: #991b1b; }
+        .category-badge.utility { background: #e9d5ff; color: #6b21a8; }
+        .category-badge.content { background: #fef3c7; color: #78350f; }
+        .category-badge.media { background: #ddd6fe; color: #5b21b6; }
+        .category-badge.search { background: #ccfbf1; color: #115e59; }
+        .category-badge.news { background: #f3e8ff; color: #6b21a8; }
+
+        /* Navigation */
+        .navbar {
+            background: white !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--gray-900) !important;
+        }
+
+        .nav-link {
+            color: var(--gray-700) !important;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            color: var(--gray-300);
+            padding: 40px 0 20px;
+            margin-top: 80px;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        footer a {
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .api-header h1 {
+                font-size: 2rem;
+            }
+
+            .api-header p {
+                font-size: 1rem;
+            }
+
+            .api-card {
+                padding: 20px;
+            }
+
+            .api-links {
+                flex-direction: column;
+            }
+
+            .api-link {
+                justify-content: center;
+            }
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--gray-50);
+            padding: 60px 0;
+            margin: 60px 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code"></i> Pritesh Yadav
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="api-showcase.html">APIs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="support.html">Support</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="api-header">
+        <div class="container text-center">
+            <h1><i class="fas fa-plug"></i> 11 Powerful APIs for Modern Development</h1>
+            <p class="lead">Nobody wants to build things from scratch. That's why APIs exist. Explore these powerful APIs to accelerate your next project with real-time data, validation, security, and more.</p>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-box">
+                        <span class="stat-number">11</span>
+                        <span class="stat-label">Powerful APIs</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-box">
+                        <span class="stat-number">250+</span>
+                        <span class="stat-label">Countries Covered</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-box">
+                        <span class="stat-number">170+</span>
+                        <span class="stat-label">Currencies</span>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-box">
+                        <span class="stat-number">30K+</span>
+                        <span class="stat-label">Stock Tickers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Showcase -->
+    <main class="container py-5">
+        
+        <!-- API 1: IPStack -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">1</span>
+                    <div class="mb-3">
+                        <span class="category-badge geolocation">Geolocation</span>
+                        <span class="category-badge security">Security</span>
+                    </div>
+                    <h3>IPStack API</h3>
+                    <span class="api-subtitle">Real-time IP geolocation and threat level assessment</span>
+                    
+                    <p class="api-description">
+                        IPStack provides a powerful, real-time IP to geolocation API capable of looking up accurate location data and assessing security threats from risky IP addresses. Perfect for personalizing user experiences and implementing security measures.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Lookup country, region, city, timezone, currency, and connection info</li>
+                            <li>Bulk lookup (up to 50 IPs) via comma-separated calls</li>
+                            <li>Hostname resolution & security checks (proxy/Tor/threat detection)</li>
+                            <li>Return JSON or XML with JSONP callbacks</li>
+                            <li>Multi-language support</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Personalize user experiences by displaying location-specific content, implement geo-blocking for security, or provide localized language options based on visitor location.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl 'https://api.ipstack.com/134.201.250.155?access_key=YOUR_ACCESS_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://ipstack.com/" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://ipstack.com/documentation" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 2: Fixer -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">2</span>
+                    <div class="mb-3">
+                        <span class="category-badge finance">Finance</span>
+                        <span class="category-badge data">Data</span>
+                    </div>
+                    <h3>Fixer API</h3>
+                    <span class="api-subtitle">Real-time & historical foreign exchange rates</span>
+                    
+                    <p class="api-description">
+                        A simple and lightweight API for real-time exchange rate data for 170 world currencies, updated every 60 seconds. Includes historical data available back to January 1, 1999.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Latest exchange rates and historical rates (EOD)</li>
+                            <li>Currency conversion endpoint</li>
+                            <li>Time-series data (up to 365 days) & fluctuation data</li>
+                            <li>Supports changing base currency and selecting specific symbols</li>
+                            <li>Bank-level security (256-bit SSL), CORS, JSONP & ETag cache support</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Build financial dashboards or analytics tools needing up-to-the-minute exchange rates with historical comparisons. Perfect for e-commerce, fintech apps, and investment platforms.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl "https://data.fixer.io/api/latest?access_key=YOUR_API_KEY&symbols=USD,CAD,JPY"</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://fixer.io/" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://fixer.io/documentation" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 3: Numverify -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">3</span>
+                    <div class="mb-3">
+                        <span class="category-badge validation">Validation</span>
+                        <span class="category-badge security">Security</span>
+                    </div>
+                    <h3>Numverify API</h3>
+                    <span class="api-subtitle">Validate phone numbers for 232 countries worldwide</span>
+                    
+                    <p class="api-description">
+                        A full-featured RESTful JSON API for national and international phone number validation and information lookup. Numbers are processed in real-time and cross-checked with the latest international numbering plan databases.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Validate number, country code, format, and carrier</li>
+                            <li>Supports E.164, international and national formats</li>
+                            <li>Detect line type (mobile/landline)</li>
+                            <li>Include location information</li>
+                            <li>Coverage for 232 countries</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Verify phone numbers during user registration, protect against fraud by validating carrier information, and optimize SMS delivery by identifying line types.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --request GET 'https://api.apilayer.com/number_verification/validate?number=14158586273' \
+--header 'apikey: YOUR_API_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://numverify.com/" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/number_verification-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 4: Marketstack -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">4</span>
+                    <div class="mb-3">
+                        <span class="category-badge finance">Finance</span>
+                        <span class="category-badge data">Data</span>
+                    </div>
+                    <h3>Marketstack API</h3>
+                    <span class="api-subtitle">Real-time and historical stock market data</span>
+                    
+                    <p class="api-description">
+                        RESTful JSON API providing real-time, intraday and historical stock market data from 30,000+ tickers across 70+ global exchanges, with over 30 years of historical data.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Real-time stock quotes and intraday prices (1 min, 5 min intervals)</li>
+                            <li>End-of-day (EOD) historical data for 30+ years</li>
+                            <li>Coverage of 500K+ tickers including global exchanges, indices, currencies, bonds, ETFs</li>
+                            <li>Supports splits, dividends, company data, timezones</li>
+                            <li>Secure (256-bit HTTPS) and easy authentication</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Power trading dashboards, portfolio trackers or investment tools with live charts and historic trends. Ideal for fintech applications and financial analytics.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl "https://api.marketstack.com/v2/eod?access_key=YOUR_ACCESS_KEY&symbols=AAPL"</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://marketstack.com/" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://marketstack.com/documentation" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 5: Aviationstack -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">5</span>
+                    <div class="mb-3">
+                        <span class="category-badge travel">Travel</span>
+                        <span class="category-badge data">Data</span>
+                    </div>
+                    <h3>Aviationstack API</h3>
+                    <span class="api-subtitle">Real-time and historical global flight tracking</span>
+                    
+                    <p class="api-description">
+                        RESTful JSON API delivering real-time flight status, historical data, route, airline, airport, and aircraft information. Covers 13,000+ airlines and 10,000+ airports in 250+ countries.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Live flight status updates (delay, gate, runway, coordinates, speed)</li>
+                            <li>Historical flight data (up to 3 months)</li>
+                            <li>Route lookup, airport info, airline & aircraft data</li>
+                            <li>Flight schedules and autocomplete</li>
+                            <li>Secure 256-bit HTTPS, JSONP support</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Build travel planners, flight tracking apps, airport display boards, booking systems or analytics tools based on flight history and delays.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl "https://api.aviationstack.com/v1/flights?access_key=YOUR_ACCESS_KEY&flight_date=2025-06-27&limit=5"</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://aviationstack.com/" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://aviationstack.com/documentation" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 6: Violence Detection -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">6</span>
+                    <div class="mb-3">
+                        <span class="category-badge security">Security</span>
+                        <span class="category-badge content">Content Moderation</span>
+                    </div>
+                    <h3>Violence Detection API</h3>
+                    <span class="api-subtitle">Flag violent images automatically</span>
+                    
+                    <p class="api-description">
+                        Automate content approval processes by detecting violent imagery. Computes a score on a 1 to 5 scale, where 5 means the content most likely contains violence while a score close to 1 implies the content is safe to publish.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Automated violence detection in images</li>
+                            <li>Score-based system (1-5 scale)</li>
+                            <li>Context-aware analysis</li>
+                            <li>Real-time processing</li>
+                            <li>URL or file upload support</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Moderate user-uploaded images on social platforms, content sharing sites, or AI-generated image platforms to ensure community safety and platform compliance.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --request GET \
+--url 'https://api.apilayer.com/violence_detection/url?url={url}' \
+--header 'apikey: YOUR_API_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://marketplace.apilayer.com/violence_detection-api" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/violence_detection-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 7: User Agent -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">7</span>
+                    <div class="mb-3">
+                        <span class="category-badge utility">Utility</span>
+                        <span class="category-badge data">Data</span>
+                    </div>
+                    <h3>User Agent API</h3>
+                    <span class="api-subtitle">Parse and generate user agent strings for device detection</span>
+                    
+                    <p class="api-description">
+                        Detect devices like mobile phones, tablets and their capabilities by parsing browser/HTTP user agent strings. Also generates random user agent strings from a database of 325,000+ entries.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Parse user agent strings to identify device type</li>
+                            <li>Detect browser, OS, and device capabilities</li>
+                            <li>Identify touch capability and device category</li>
+                            <li>Generate random user agents for web scraping</li>
+                            <li>Filter by OS, device type, and browser</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Optimize user experiences based on device capabilities, generate realistic user agents for web scraping projects, and implement responsive design decisions.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --request GET \
+--url 'https://api.apilayer.com/user_agent/parse?ua={ua}' \
+--header 'apikey: YOUR_API_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://apilayer.com/marketplace/user_agent-api" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/user_agent-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 8: Bad Words -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">8</span>
+                    <div class="mb-3">
+                        <span class="category-badge content">Content Moderation</span>
+                        <span class="category-badge security">Security</span>
+                    </div>
+                    <h3>Bad Words API</h3>
+                    <span class="api-subtitle">Advanced profanity filter for content moderation</span>
+                    
+                    <p class="api-description">
+                        Intelligent profanity detection system using English phonetics to identify and filter inappropriate language. Goes beyond simple word matching by analyzing how words sound, making it highly effective at catching variations.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Phonetic-based detection (catches variations like "fck", "frck")</li>
+                            <li>Identify swear words and their locations in text</li>
+                            <li>Replace profanity with custom censor characters</li>
+                            <li>Real-time processing</li>
+                            <li>Detailed reports with word positions and deviations</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Moderate user-generated content in forums and comment sections, filter chat messages in real-time apps, and ensure AI assistant responses are safe for all users.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --request POST \
+--url 'https://api.apilayer.com/bad_words?censor_character=*' \
+--header 'apikey: YOUR_API_KEY' \
+--data-raw 'Your text content here'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://apilayer.com/marketplace/bad_words-api" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/bad_words-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 9: Social Media Assets -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">9</span>
+                    <div class="mb-3">
+                        <span class="category-badge media">Media</span>
+                        <span class="category-badge utility">Utility</span>
+                    </div>
+                    <h3>Social Media Assets Generator API</h3>
+                    <span class="api-subtitle">Resize and optimize images for social media platforms</span>
+                    
+                    <p class="api-description">
+                        Automatically resizes and creates appropriately formatted images for various social networks including Instagram, Facebook, Twitter, LinkedIn, YouTube, Pinterest and Tumblr.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Support for all major social platforms</li>
+                            <li>Multiple orientations: square, landscape, portrait, profile, story</li>
+                            <li>Automatic center-point cropping</li>
+                            <li>File upload or URL processing</li>
+                            <li>Returns optimized image URLs</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Automatically generate properly sized social media graphics for marketing campaigns, create consistent brand images across platforms, and save time on manual image resizing.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --location --request POST \
+'https://api.apilayer.com/social_asset/instagram/upload' \
+--data-binary '@/path/to/file/image.jpg' \
+--header 'Content-Type: octet/stream' \
+--header 'apikey: YOUR_API_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://apilayer.com/marketplace/social_asset-api" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/social_asset-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 10: Google Search Results -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">10</span>
+                    <div class="mb-3">
+                        <span class="category-badge search">Search</span>
+                        <span class="category-badge data">Data</span>
+                    </div>
+                    <h3>Google Search Results API</h3>
+                    <span class="api-subtitle">Fetch live Google Search Engine Results Page (SERPs)</span>
+                    
+                    <p class="api-description">
+                        Scrapes Google Search engine result pages (SERPs) to extract organic results, ads, related queries, and shopping results. Provides comprehensive search data with support for location-based searches across 170+ countries.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Extract organic search results and ads</li>
+                            <li>Get related queries and "People also ask" sections</li>
+                            <li>Location-based searches for 170+ countries</li>
+                            <li>Multiple language support</li>
+                            <li>Shopping results and knowledge graphs</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Monitor SEO rankings, track competitor performance, identify trending topics for content creation, and analyze search trends for product-market fit.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --location --request GET 'https://api.apilayer.com/google_search?q=your+query' \
+--header 'apikey: YOUR_API_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://apilayer.com/marketplace/google_search-api" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/google_search-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API 11: World News -->
+        <div class="row">
+            <div class="col-12">
+                <div class="api-card">
+                    <span class="api-number">11</span>
+                    <div class="mb-3">
+                        <span class="category-badge news">News</span>
+                        <span class="category-badge search">Search</span>
+                    </div>
+                    <h3>World News API</h3>
+                    <span class="api-subtitle">Global news with semantic search</span>
+                    
+                    <p class="api-description">
+                        Access thousands of news sources in over 50 languages from more than 150 countries worldwide. Features semantic search capability that understands context and variations in terminology.
+                    </p>
+
+                    <div class="api-features">
+                        <h4><i class="fas fa-star"></i> Key Features</h4>
+                        <ul>
+                            <li>Access news from 150+ countries in 50+ languages</li>
+                            <li>Semantic search (understands "USA", "US", "United States")</li>
+                            <li>Filter by location, language, sentiment, authors</li>
+                            <li>Sort by relevance, publish date, or sentiment</li>
+                            <li>Get news summaries, images, and sentiment scores</li>
+                        </ul>
+                    </div>
+
+                    <div class="use-case-box">
+                        <strong><i class="fas fa-lightbulb"></i> Use Case:</strong>
+                        <p>Monitor global news coverage of your brand or industry, analyze sentiment around specific topics across different countries, track breaking news for investment decisions, and compare international perspectives.</p>
+                    </div>
+
+                    <div class="code-example">
+                        <span class="code-label">cURL</span>
+<code>curl --request GET \
+--url 'https://api.apilayer.com/world_news/search-news?text={text}' \
+--header 'apikey: YOUR_API_KEY'</code>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://apilayer.com/marketplace/world_news-api" target="_blank" class="api-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                        <a href="https://apilayer.com/marketplace/world_news-api" target="_blank" class="api-link secondary">
+                            <i class="fas fa-book"></i> Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="api-card text-center" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white; border: none;">
+                    <h2 style="color: white; margin-bottom: 20px;">Ready to Build Something Amazing?</h2>
+                    <p style="font-size: 1.1rem; opacity: 0.95; margin-bottom: 30px;">
+                        These APIs can accelerate your development process and add powerful features to your applications. Start integrating today!
+                    </p>
+                    <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                        <a href="contact.html" class="api-link" style="background: white; color: var(--primary-color);">
+                            <i class="fas fa-envelope"></i> Get in Touch
+                        </a>
+                        <a href="index.html" class="api-link secondary" style="background: transparent; color: white; border-color: white;">
+                            <i class="fas fa-briefcase"></i> View Portfolio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <h5>Pritesh Yadav</h5>
+                    <p>Software Developer passionate about building innovative solutions with modern technologies.</p>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Portfolio</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html#about">About</a></li>
+                        <li><a href="index.html#projects">Projects</a></li>
+                        <li><a href="index.html#skills">Skills</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="support.html">Customer Support</a></li>
+                        <li><a href="policies.html">Policies</a></li>
+                        <li><a href="policies.html#privacy">Privacy</a></li>
+                        <li><a href="policies.html#terms">Terms</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <h5>Connect</h5>
+                    <div class="social-links">
+                        <a href="#" style="margin-right: 15px;"><i class="fab fa-github fa-lg"></i></a>
+                        <a href="#" style="margin-right: 15px;"><i class="fab fa-linkedin fa-lg"></i></a>
+                        <a href="#" style="margin-right: 15px;"><i class="fab fa-twitter fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Pritesh Yadav. All rights reserved. | 
+                    <a href="policies.html#terms">Terms</a> • 
+                    <a href="policies.html#privacy">Privacy</a> • 
+                    <a href="contact.html">Contact</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="scripts/bootstrap.bundle.min.js"></script>
+</body>
+</html>
