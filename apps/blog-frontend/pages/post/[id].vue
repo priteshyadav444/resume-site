@@ -40,7 +40,7 @@
             <div class="post-share">
               <span class="share-label">Share:</span>
               <a 
-                :href="`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(shareUrl)}`"
+                :href="twitterShareUrl"
                 target="_blank"
                 rel="noopener"
                 class="share-link"
@@ -48,7 +48,7 @@
                 Twitter
               </a>
               <a 
-                :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`"
+                :href="linkedinShareUrl"
                 target="_blank"
                 rel="noopener"
                 class="share-link"
@@ -64,7 +64,8 @@
 </template>
 
 <script setup lang="ts">
-import { useHead, useRuntimeConfig } from '#imports'
+import { computed } from 'vue'
+import { useHead, useRuntimeConfig, useRoute, useAsyncData } from '#imports'
 const route = useRoute()
 const config = useRuntimeConfig()
 
@@ -104,6 +105,18 @@ const post = postData
 const shareUrl = computed(() => {
   if (!post.value) return ''
   return `${config.public.siteUrl}/post/${post.value.id}`
+})
+
+const twitterShareUrl = computed(() => {
+  if (!post.value) return ''
+  const title = post.value.title || ''
+  const url = shareUrl.value
+  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`
+})
+
+const linkedinShareUrl = computed(() => {
+  if (!post.value) return ''
+  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl.value)}`
 })
 
 useHead(() => {
