@@ -29,7 +29,7 @@ export class Post {
   tags: string[];
 
   @Field({ nullable: true })
-  @Column({ type: 'datetime', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   publishedAt?: Date;
 
   @Field({ nullable: true })

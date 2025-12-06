@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(private jwtService: JwtService) { }
 
   // Simple admin validation using env variables (for demo). In production, use proper user store and hashed passwords.
   async validateAdmin(email: string, password: string) {
