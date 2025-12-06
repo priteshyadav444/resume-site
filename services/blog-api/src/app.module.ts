@@ -29,7 +29,7 @@ import { MenuModule } from './menu/menu.module';
         port: configService.get<number>('ADMIN_DB_PORT', 5432),
         username: configService.get<string>('ADMIN_DB_USERNAME', 'pritesh'),
         password: configService.get<string>('ADMIN_DB_PASSWORD', 'pritesh'),
-        database: configService.get<string>('ADMIN_DB_DATABASE', 'db_name'),
+        database: configService.get<string>('ADMIN_DB_DATABASE', 'blogs'),
         entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         migrations: [join(__dirname, 'migrations', '*.{ts,js}')],
         synchronize: configService.get<string>('NODE_ENV') === 'development' && configService.get<string>('USE_SYNC') === 'true', // Only sync if explicitly enabled
