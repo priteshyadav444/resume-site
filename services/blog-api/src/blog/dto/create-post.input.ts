@@ -26,4 +26,16 @@ export class CreatePostInput {
   @Field({ nullable: true })
   @IsOptional()
   publishedAt?: Date;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  metaTitle?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  metaDescription?: string;
+
+  @Field({ nullable: true })
+  @IsOptional()
+  ogImage?: string;
 }

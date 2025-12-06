@@ -32,6 +32,18 @@ export class Post {
   @Column({ type: 'datetime', nullable: true })
   publishedAt?: Date;
 
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  metaTitle?: string;
+
+  @Field({ nullable: true })
+  @Column({ type: 'text', nullable: true })
+  metaDescription?: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  ogImage?: string;
+
   @Field()
   @CreateDateColumn()
   createdAt: Date;
