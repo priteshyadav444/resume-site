@@ -213,7 +213,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-const config = useRuntimeConfig()
+import { useGqlClient } from '~/composables/gqlClient'
+const { gql } = useGqlClient()
 
 const email = ref('admin@local')
 const password = ref('')
@@ -234,24 +235,11 @@ const editingPostId = ref<number | null>(null)
 const posts = ref<any[]>([])
 const postsLoading = ref(false)
 
-async function apiCall(endpoint: string, options: any = {}) {
-  const headers: any = { 'Content-Type': 'application/json' }
-  if (token.value) headers['Authorization'] = `Bearer ${token.value}`
-  if (options.headers) Object.assign(headers, options.headers)
-  
-  return $fetch(`${config.public.apiUrl}${endpoint}`, {
-    ...options,
-    headers
-  })
-}
-
 async function login() {
   try {
-    const res = await apiCall('/auth/login', {
-      method: 'POST',
-      body: { email: email.value, password: password.value }
-    })
-    const tokenVal = res.accessToken
+    const query = `mutation($email:String!,$password:String!){ loginAdmin(email:$email,password:$password){ accessToken } }`
+    const res = await gql(query, { email: email.value, password: password.value })
+    const tokenVal = res.data?.loginAdmin?.accessToken || res.data?.loginAdmin || res.loginAdmin?.accessToken
     if (tokenVal) {
       token.value = tokenVal
       if (typeof window !== 'undefined') {
@@ -284,8 +272,9 @@ function logout() {
 async function loadPosts() {
   postsLoading.value = true
   try {
-    const res = await apiCall('/posts')
-    posts.value = res || []
+    const query = `query { posts { id title slug excerpt content tags publishedAt createdAt ogImage } }`
+    const res = await gql(query)
+    posts.value = res.data?.posts || []
   } catch (error: any) {
     message.value = 'Error loading posts: ' + (error.message || 'Unknown error')
     messageType.value = 'alert-danger'
@@ -313,11 +302,10 @@ async function createPost() {
   }
 
   try {
-    const res = await apiCall('/posts', {
-      method: 'POST',
-      body: input
-    })
-    message.value = `Post "${res.title}" created successfully!`
+    const mutation = `mutation($input:CreatePostInput!){ createPost(input:$input){ id title slug } }`
+    const res = await gql(mutation, { input }, token.value)
+    const created = res.data?.createPost
+    message.value = created ? `Post "${created.title}" created successfully!` : 'Post created'
     messageType.value = 'alert-success'
     resetForm()
     await loadPosts()
@@ -364,10 +352,8 @@ async function updatePost() {
   }
 
   try {
-    await apiCall(`/posts/${editingPostId.value}`, {
-      method: 'PATCH',
-      body: input
-    })
+    const mutation = `mutation($input:UpdatePostInput!){ updatePost(input:$input){ id title slug } }`
+    await gql(mutation, { input: { id: editingPostId.value, ...input } }, token.value)
     message.value = 'Post updated successfully!'
     messageType.value = 'alert-success'
     cancelEdit()
@@ -382,9 +368,8 @@ async function deletePost(id: number) {
   if (!confirm('Are you sure you want to delete this post?')) return
   
   try {
-    await apiCall(`/posts/${id}`, {
-      method: 'DELETE'
-    })
+    const mutation = `mutation($id:Int!){ deletePost(id:$id) }`
+    await gql(mutation, { id }, token.value)
     message.value = 'Post deleted successfully'
     messageType.value = 'alert-success'
     await loadPosts()

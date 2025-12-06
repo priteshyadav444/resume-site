@@ -78,17 +78,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useHead, useRuntimeConfig, useRoute, useAsyncData } from '#imports'
+import { useHead } from '#imports'
+import { useRoute } from 'vue-router'
+import { useGqlClient } from '~/composables/gqlClient'
 const route = useRoute()
 const config = useRuntimeConfig()
 
-async function gql(query: string, variables = {}) {
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables })
-  })
-}
 
 const slug = route.params.slug as string
 const { data: itemData, pending: itemLoading } = await useAsyncData(`portfolio-${slug}`, async () => {
@@ -108,6 +103,7 @@ const { data: itemData, pending: itemLoading } = await useAsyncData(`portfolio-$
       createdAt 
     } 
   }`
+  const { gql } = useGqlClient()
   const res = await gql(query, { slug })
   return res.data?.portfolioBySlug || null
 })

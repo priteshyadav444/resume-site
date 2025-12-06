@@ -55,29 +55,14 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-const config = useRuntimeConfig()
+import { useGqlClient } from '~/composables/gqlClient'
+
+const { gql } = useGqlClient()
 
 const menu = ref<any[]>([])
 
-async function gql(query: string, variables = {}) {
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables })
-  })
-}
-
 const { data } = await useAsyncData('menu-items', async () => {
-  const query = `query { 
-    menuItems { 
-      id 
-      label 
-      url 
-      icon 
-      order 
-      visible 
-    } 
-  }`
+  const query = `query { menuItems { id label url icon order visible } }`
   const res = await gql(query)
   return res.data?.menuItems || []
 })
@@ -86,8 +71,8 @@ menu.value = data.value || []
 
 const visibleMenuItems = computed(() => {
   return menu.value
-    .filter(item => item.visible)
-    .sort((a, b) => a.order - b.order)
+    .filter((item: any) => item.visible)
+    .sort((a: any, b: any) => a.order - b.order)
 })
 
 function isInternal(url: string) {

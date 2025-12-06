@@ -11,4 +11,4 @@ import { Post } from './blog.entity';
   controllers: [BlogController],
   exports: [BlogService],
 })
-export class BlogModule {}
+export class BlogModule { }

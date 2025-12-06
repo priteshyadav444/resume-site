@@ -148,7 +148,8 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-const config = useRuntimeConfig()
+import { useGqlClient } from '~/composables/gqlClient'
+const { gql } = useGqlClient()
 const token = ref(typeof window !== 'undefined' ? localStorage.getItem('blog_token') || '' : '')
 
 const label = ref('')
@@ -168,15 +169,8 @@ const sortedItems = computed(() => {
   return [...items.value].sort((a, b) => a.order - b.order)
 })
 
-async function apiCall(endpoint: string, options: any = {}) {
-  const headers: any = { 'Content-Type': 'application/json' }
-  if (token.value) headers['Authorization'] = `Bearer ${token.value}`
-  if (options.headers) Object.assign(headers, options.headers)
-  
-  return $fetch(`${config.public.apiUrl}${endpoint}`, {
-    ...options,
-    headers
-  })
+async function apiCallGraphQL(query: string, variables: any = {}, useToken = true) {
+  return gql(query, variables, useToken ? token.value : undefined)
 }
 
 function logout() {
@@ -191,8 +185,9 @@ function logout() {
 async function load() {
   itemsLoading.value = true
   try {
-    const res = await apiCall('/menu')
-    items.value = res || []
+    const query = `query { menuItems { id label url icon order visible } }`
+    const res = await apiCallGraphQL(query, {}, false)
+    items.value = res.data?.menuItems || []
   } catch (error: any) {
     message.value = 'Error loading items: ' + (error.message || 'Unknown error')
     messageType.value = 'alert-danger'
@@ -218,11 +213,10 @@ async function createItem() {
   }
   
   try {
-    await apiCall('/menu', {
-      method: 'POST',
-      body: input
-    })
-    message.value = 'Menu item created successfully!'
+    const mutation = `mutation($input:CreateMenuInput!){ createMenuItem(input:$input){ id label url } }`
+    const res = await apiCallGraphQL(mutation, { input })
+    const created = res.data?.createMenuItem
+    message.value = created ? 'Menu item created successfully!' : 'Menu item created'
     messageType.value = 'alert-success'
     resetForm()
     await load()
@@ -261,10 +255,8 @@ async function updateItem() {
   }
   
   try {
-    await apiCall(`/menu/${editingId.value}`, {
-      method: 'PATCH',
-      body: input
-    })
+    const mutation = `mutation($input:UpdateMenuInput!){ updateMenuItem(input:$input){ id label url } }`
+    await apiCallGraphQL(mutation, { input: { id: editingId.value, ...input } })
     message.value = 'Menu item updated successfully!'
     messageType.value = 'alert-success'
     editing.value = false
@@ -280,9 +272,8 @@ async function remove(id: number) {
   if (!confirm('Are you sure you want to delete this menu item?')) return
   
   try {
-    await apiCall(`/menu/${id}`, {
-      method: 'DELETE'
-    })
+    const mutation = `mutation($id:Int!){ deleteMenuItem(id:$id) }`
+    await apiCallGraphQL(mutation, { id })
     message.value = 'Menu item deleted successfully'
     messageType.value = 'alert-success'
     await load()

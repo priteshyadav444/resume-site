@@ -82,48 +82,19 @@
 </template>
 
 <script setup lang="ts">
-import { useHead, useRuntimeConfig } from '#imports'
+import { useHead } from '#imports'
+import { useGqlClient } from '~/composables/gqlClient'
 
-const config = useRuntimeConfig()
-
-async function gql(query: string, variables = {}) {
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, variables })
-  })
-}
+const { gql } = useGqlClient()
 
 const { data: portfolioData, pending: portfolioLoading } = await useAsyncData('featured-portfolio', async () => {
-  const query = `query { 
-    featuredPortfolio { 
-      id 
-      title 
-      slug 
-      category 
-      shortDescription 
-      images 
-      createdAt 
-    } 
-  }`
+  const query = `query { featuredPortfolio { id title slug category shortDescription images createdAt } }`
   const res = await gql(query)
   return res.data?.featuredPortfolio || []
 })
 
 const { data: postsData, pending: postsLoading } = await useAsyncData('posts', async () => {
-  const query = `query { 
-    posts { 
-      id 
-      title 
-      slug 
-      excerpt 
-      content 
-      tags 
-      publishedAt 
-      createdAt 
-      ogImage 
-    } 
-  }`
+  const query = `query { posts { id title slug excerpt content tags publishedAt createdAt ogImage } }`
   const res = await gql(query)
   return res.data?.posts || []
 })

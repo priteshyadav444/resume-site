@@ -212,7 +212,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-const config = useRuntimeConfig()
+import { useGqlClient } from '~/composables/gqlClient'
+const { gql } = useGqlClient()
 const token = ref(typeof window !== 'undefined' ? localStorage.getItem('blog_token') || '' : '')
 
 const title = ref('')
@@ -234,15 +235,9 @@ const editing = ref(false)
 const editingId = ref<number | null>(null)
 const itemsLoading = ref(false)
 
-async function apiCall(endpoint: string, options: any = {}) {
-  const headers: any = { 'Content-Type': 'application/json' }
-  if (token.value) headers['Authorization'] = `Bearer ${token.value}`
-  if (options.headers) Object.assign(headers, options.headers)
-  
-  return $fetch(`${config.public.apiUrl}${endpoint}`, {
-    ...options,
-    headers
-  })
+// Use GraphQL client for backend operations
+async function apiCallGraphQL(query: string, variables: any = {}, useToken = true) {
+  return gql(query, variables, useToken ? token.value : undefined)
 }
 
 function logout() {
@@ -257,8 +252,9 @@ function logout() {
 async function load() {
   itemsLoading.value = true
   try {
-    const res = await apiCall('/portfolio')
-    items.value = res || []
+    const query = `query { portfolioItems { id title slug category shortDescription images featured externalUrl createdAt } }`
+    const res = await apiCallGraphQL(query, {}, false)
+    items.value = res.data?.portfolioItems || []
   } catch (error: any) {
     message.value = 'Error loading items: ' + (error.message || 'Unknown error')
     messageType.value = 'alert-danger'
@@ -291,11 +287,10 @@ async function createItem() {
   }
   
   try {
-    await apiCall('/portfolio', {
-      method: 'POST',
-      body: input
-    })
-    message.value = 'Portfolio item created successfully!'
+    const mutation = `mutation($input:CreatePortfolioInput!){ createPortfolioItem(input:$input){ id title slug } }`
+    const res = await apiCallGraphQL(mutation, { input })
+    const created = res.data?.createPortfolioItem
+    message.value = created ? 'Portfolio item created successfully!' : 'Portfolio item created'
     messageType.value = 'alert-success'
     resetForm()
     await load()
@@ -347,10 +342,8 @@ async function updateItem() {
   }
   
   try {
-    await apiCall(`/portfolio/${editingId.value}`, {
-      method: 'PATCH',
-      body: input
-    })
+    const mutation = `mutation($input:UpdatePortfolioInput!){ updatePortfolioItem(input:$input){ id title slug } }`
+    await apiCallGraphQL(mutation, { input: { id: editingId.value, ...input } })
     message.value = 'Portfolio item updated successfully!'
     messageType.value = 'alert-success'
     editing.value = false
@@ -366,9 +359,8 @@ async function remove(id: number) {
   if (!confirm('Are you sure you want to delete this portfolio item?')) return
   
   try {
-    await apiCall(`/portfolio/${id}`, {
-      method: 'DELETE'
-    })
+    const mutation = `mutation($id:Int!){ deletePortfolioItem(id:$id) }`
+    await apiCallGraphQL(mutation, { id })
     message.value = 'Portfolio item deleted successfully'
     messageType.value = 'alert-success'
     await load()

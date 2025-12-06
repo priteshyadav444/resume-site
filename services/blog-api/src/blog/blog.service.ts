@@ -38,6 +38,6 @@ export class BlogService {
 
   async remove(id: number): Promise<boolean> {
     const res = await this.repo.delete(id);
-    return res.affected > 0;
+    return (res.affected || 0) > 0;
   }
 }

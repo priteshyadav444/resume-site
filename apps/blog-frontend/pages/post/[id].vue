@@ -65,19 +65,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useHead, useRuntimeConfig, useRoute, useAsyncData } from '#imports'
+import { useHead, useRoute, useAsyncData } from '#imports'
+import { useGqlClient } from '~/composables/gqlClient'
 const route = useRoute()
-const config = useRuntimeConfig()
-
-async function gql(query: string, variables = {}, token?: string) {
-  const headers: any = { 'Content-Type': 'application/json' }
-  if (token) headers['Authorization'] = `Bearer ${token}`
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ query, variables })
-  })
-}
+const { gql } = useGqlClient()
 
 const id = parseInt(route.params.id as string)
 const { data: postData, pending: postLoading } = await useAsyncData(`post-${id}`, async () => {
