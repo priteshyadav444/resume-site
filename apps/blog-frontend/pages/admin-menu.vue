@@ -168,13 +168,14 @@ const sortedItems = computed(() => {
   return [...items.value].sort((a, b) => a.order - b.order)
 })
 
-function gql(query: string, variables = {}, auth?: string) {
+async function apiCall(endpoint: string, options: any = {}) {
   const headers: any = { 'Content-Type': 'application/json' }
-  if (auth) headers['Authorization'] = `Bearer ${auth}`
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ query, variables })
+  if (token.value) headers['Authorization'] = `Bearer ${token.value}`
+  if (options.headers) Object.assign(headers, options.headers)
+  
+  return $fetch(`${config.public.apiUrl}${endpoint}`, {
+    ...options,
+    headers
   })
 }
 
@@ -189,19 +190,16 @@ function logout() {
 
 async function load() {
   itemsLoading.value = true
-  const query = `query { 
-    menuItems { 
-      id 
-      label 
-      url 
-      icon 
-      order 
-      visible 
-    } 
-  }`
-  const res = await gql(query)
-  items.value = res.data?.menuItems || []
-  itemsLoading.value = false
+  try {
+    const res = await apiCall('/menu')
+    items.value = res || []
+  } catch (error: any) {
+    message.value = 'Error loading items: ' + (error.message || 'Unknown error')
+    messageType.value = 'alert-danger'
+    items.value = []
+  } finally {
+    itemsLoading.value = false
+  }
 }
 
 onMounted(() => {
@@ -218,26 +216,18 @@ async function createItem() {
     order: order.value || 0,
     visible: visible.value
   }
-  const query = `mutation ($input: CreateMenuInput!){ 
-    createMenuItem(input:$input){ 
-      id 
-      label 
-    } 
-  }`
   
   try {
-    const res = await gql(query, { input }, token.value)
-    if (res.errors) {
-      message.value = 'Error creating item: ' + (res.errors[0]?.message || 'Unknown error')
-      messageType.value = 'alert-danger'
-    } else {
-      message.value = 'Menu item created successfully!'
-      messageType.value = 'alert-success'
-      resetForm()
-      await load()
-    }
+    await apiCall('/menu', {
+      method: 'POST',
+      body: input
+    })
+    message.value = 'Menu item created successfully!'
+    messageType.value = 'alert-success'
+    resetForm()
+    await load()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error creating item: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
@@ -263,56 +253,41 @@ function cancelEdit() {
 async function updateItem() {
   if (!editingId.value) return
   const input = {
-    id: editingId.value,
     label: label.value,
     url: url.value,
     icon: icon.value || undefined,
     order: order.value || 0,
     visible: visible.value
   }
-  const query = `mutation ($input: UpdateMenuInput!){ 
-    updateMenuItem(input:$input){ 
-      id 
-      label 
-    } 
-  }`
   
   try {
-    const res = await gql(query, { input }, token.value)
-    if (res.errors) {
-      message.value = 'Error updating item: ' + (res.errors[0]?.message || 'Unknown error')
-      messageType.value = 'alert-danger'
-    } else {
-      message.value = 'Menu item updated successfully!'
-      messageType.value = 'alert-success'
-      editing.value = false
-      editingId.value = null
-      await load()
-    }
+    await apiCall(`/menu/${editingId.value}`, {
+      method: 'PATCH',
+      body: input
+    })
+    message.value = 'Menu item updated successfully!'
+    messageType.value = 'alert-success'
+    editing.value = false
+    editingId.value = null
+    await load()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error updating item: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
 
 async function remove(id: number) {
   if (!confirm('Are you sure you want to delete this menu item?')) return
-  const query = `mutation ($id:Int!){ 
-    deleteMenuItem(id:$id) 
-  }`
   
   try {
-    const res = await gql(query, { id }, token.value)
-    if (res.data?.deleteMenuItem) {
-      message.value = 'Menu item deleted successfully'
-      messageType.value = 'alert-success'
-      await load()
-    } else {
-      message.value = 'Delete failed'
-      messageType.value = 'alert-danger'
-    }
+    await apiCall(`/menu/${id}`, {
+      method: 'DELETE'
+    })
+    message.value = 'Menu item deleted successfully'
+    messageType.value = 'alert-success'
+    await load()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error deleting item: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }

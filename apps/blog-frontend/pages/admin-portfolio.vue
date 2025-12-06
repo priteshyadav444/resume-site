@@ -234,13 +234,14 @@ const editing = ref(false)
 const editingId = ref<number | null>(null)
 const itemsLoading = ref(false)
 
-function gql(query: string, variables = {}, auth?: string) {
+async function apiCall(endpoint: string, options: any = {}) {
   const headers: any = { 'Content-Type': 'application/json' }
-  if (auth) headers['Authorization'] = `Bearer ${auth}`
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ query, variables })
+  if (token.value) headers['Authorization'] = `Bearer ${token.value}`
+  if (options.headers) Object.assign(headers, options.headers)
+  
+  return $fetch(`${config.public.apiUrl}${endpoint}`, {
+    ...options,
+    headers
   })
 }
 
@@ -255,21 +256,16 @@ function logout() {
 
 async function load() {
   itemsLoading.value = true
-  const query = `query { 
-    portfolioItems { 
-      id 
-      title 
-      slug 
-      category 
-      shortDescription 
-      featured 
-      images 
-      createdAt 
-    } 
-  }`
-  const res = await gql(query)
-  items.value = res.data?.portfolioItems || []
-  itemsLoading.value = false
+  try {
+    const res = await apiCall('/portfolio')
+    items.value = res || []
+  } catch (error: any) {
+    message.value = 'Error loading items: ' + (error.message || 'Unknown error')
+    messageType.value = 'alert-danger'
+    items.value = []
+  } finally {
+    itemsLoading.value = false
+  }
 }
 
 onMounted(() => {
@@ -293,26 +289,18 @@ async function createItem() {
     ogImage: ogImage.value || undefined,
     content: content.value || undefined
   }
-  const query = `mutation ($input: CreatePortfolioInput!){ 
-    createPortfolioItem(input:$input){ 
-      id 
-      title 
-    } 
-  }`
   
   try {
-    const res = await gql(query, { input }, token.value)
-    if (res.errors) {
-      message.value = 'Error creating item: ' + (res.errors[0]?.message || 'Unknown error')
-      messageType.value = 'alert-danger'
-    } else {
-      message.value = 'Portfolio item created successfully!'
-      messageType.value = 'alert-success'
-      resetForm()
-      await load()
-    }
+    await apiCall('/portfolio', {
+      method: 'POST',
+      body: input
+    })
+    message.value = 'Portfolio item created successfully!'
+    messageType.value = 'alert-success'
+    resetForm()
+    await load()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error creating item: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
@@ -345,7 +333,6 @@ async function updateItem() {
   if (!editingId.value) return
   const images = imagesRaw.value.split(',').map((s: any) => s.trim()).filter(Boolean)
   const input: any = {
-    id: editingId.value,
     title: title.value,
     slug: slug.value,
     category: category.value || undefined,
@@ -358,49 +345,35 @@ async function updateItem() {
     ogImage: ogImage.value || undefined,
     content: content.value || undefined
   }
-  const query = `mutation ($input: UpdatePortfolioInput!){ 
-    updatePortfolioItem(input:$input){ 
-      id 
-      title 
-    } 
-  }`
   
   try {
-    const res = await gql(query, { input }, token.value)
-    if (res.errors) {
-      message.value = 'Error updating item: ' + (res.errors[0]?.message || 'Unknown error')
-      messageType.value = 'alert-danger'
-    } else {
-      message.value = 'Portfolio item updated successfully!'
-      messageType.value = 'alert-success'
-      editing.value = false
-      editingId.value = null
-      await load()
-    }
+    await apiCall(`/portfolio/${editingId.value}`, {
+      method: 'PATCH',
+      body: input
+    })
+    message.value = 'Portfolio item updated successfully!'
+    messageType.value = 'alert-success'
+    editing.value = false
+    editingId.value = null
+    await load()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error updating item: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
 
 async function remove(id: number) {
   if (!confirm('Are you sure you want to delete this portfolio item?')) return
-  const query = `mutation ($id:Int!){ 
-    deletePortfolioItem(id:$id) 
-  }`
   
   try {
-    const res = await gql(query, { id }, token.value)
-    if (res.data?.deletePortfolioItem) {
-      message.value = 'Portfolio item deleted successfully'
-      messageType.value = 'alert-success'
-      await load()
-    } else {
-      message.value = 'Delete failed'
-      messageType.value = 'alert-danger'
-    }
+    await apiCall(`/portfolio/${id}`, {
+      method: 'DELETE'
+    })
+    message.value = 'Portfolio item deleted successfully'
+    messageType.value = 'alert-success'
+    await load()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error deleting item: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }

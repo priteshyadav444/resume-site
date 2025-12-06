@@ -234,34 +234,38 @@ const editingPostId = ref<number | null>(null)
 const posts = ref<any[]>([])
 const postsLoading = ref(false)
 
-async function gql(query: string, variables = {}, auth?: string) {
+async function apiCall(endpoint: string, options: any = {}) {
   const headers: any = { 'Content-Type': 'application/json' }
-  if (auth) headers['Authorization'] = `Bearer ${auth}`
-  return $fetch(config.public.apiUrl, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ query, variables })
+  if (token.value) headers['Authorization'] = `Bearer ${token.value}`
+  if (options.headers) Object.assign(headers, options.headers)
+  
+  return $fetch(`${config.public.apiUrl}${endpoint}`, {
+    ...options,
+    headers
   })
 }
 
 async function login() {
-  const query = `mutation ($email:String!, $password:String!){ 
-    loginAdmin(email:$email,password:$password){ 
-      accessToken 
-    } 
-  }`
-  const res = await gql(query, { email: email.value, password: password.value })
-  const tokenVal = res.data?.loginAdmin?.accessToken
-  if (tokenVal) {
-    token.value = tokenVal
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('blog_token', tokenVal)
+  try {
+    const res = await apiCall('/auth/login', {
+      method: 'POST',
+      body: { email: email.value, password: password.value }
+    })
+    const tokenVal = res.accessToken
+    if (tokenVal) {
+      token.value = tokenVal
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('blog_token', tokenVal)
+      }
+      message.value = 'Logged in successfully'
+      messageType.value = 'alert-success'
+      await loadPosts()
+    } else {
+      message.value = 'Login failed. Check your credentials.'
+      messageType.value = 'alert-danger'
     }
-    message.value = 'Logged in successfully'
-    messageType.value = 'alert-success'
-    await loadPosts()
-  } else {
-    message.value = 'Login failed. Check your credentials.'
+  } catch (error: any) {
+    message.value = 'Login failed: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
@@ -279,20 +283,16 @@ function logout() {
 
 async function loadPosts() {
   postsLoading.value = true
-  const query = `query { 
-    posts { 
-      id 
-      title 
-      slug 
-      excerpt 
-      tags 
-      publishedAt 
-      createdAt 
-    } 
-  }`
-  const res = await gql(query)
-  posts.value = res.data?.posts || []
-  postsLoading.value = false
+  try {
+    const res = await apiCall('/posts')
+    posts.value = res || []
+  } catch (error: any) {
+    message.value = 'Error loading posts: ' + (error.message || 'Unknown error')
+    messageType.value = 'alert-danger'
+    posts.value = []
+  } finally {
+    postsLoading.value = false
+  }
 }
 
 async function createPost() {
@@ -312,27 +312,17 @@ async function createPost() {
     input.publishedAt = new Date(publishedAt.value).toISOString()
   }
 
-  const query = `mutation ($input: CreatePostInput!){ 
-    createPost(input:$input){ 
-      id 
-      title 
-      slug 
-    } 
-  }`
-  
   try {
-    const res = await gql(query, { input }, token.value)
-    if (res.errors) {
-      message.value = 'Error creating post: ' + (res.errors[0]?.message || 'Unknown error')
-      messageType.value = 'alert-danger'
-    } else {
-      message.value = `Post "${res.data.createPost.title}" created successfully!`
-      messageType.value = 'alert-success'
-      resetForm()
-      await loadPosts()
-    }
+    const res = await apiCall('/posts', {
+      method: 'POST',
+      body: input
+    })
+    message.value = `Post "${res.title}" created successfully!`
+    messageType.value = 'alert-success'
+    resetForm()
+    await loadPosts()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error creating post: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
@@ -359,7 +349,6 @@ async function updatePost() {
   
   const tags = tagsRaw.value.split(',').map(t => t.trim()).filter(Boolean)
   const input: any = {
-    id: editingPostId.value,
     title: title.value,
     slug: slug.value,
     content: content.value,
@@ -374,26 +363,17 @@ async function updatePost() {
     input.publishedAt = new Date(publishedAt.value).toISOString()
   }
 
-  const query = `mutation ($input: UpdatePostInput!){ 
-    updatePost(input:$input){ 
-      id 
-      title 
-    } 
-  }`
-  
   try {
-    const res = await gql(query, { input }, token.value)
-    if (res.errors) {
-      message.value = 'Error updating post: ' + (res.errors[0]?.message || 'Unknown error')
-      messageType.value = 'alert-danger'
-    } else {
-      message.value = 'Post updated successfully!'
-      messageType.value = 'alert-success'
-      cancelEdit()
-      await loadPosts()
-    }
+    await apiCall(`/posts/${editingPostId.value}`, {
+      method: 'PATCH',
+      body: input
+    })
+    message.value = 'Post updated successfully!'
+    messageType.value = 'alert-success'
+    cancelEdit()
+    await loadPosts()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error updating post: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
@@ -401,22 +381,15 @@ async function updatePost() {
 async function deletePost(id: number) {
   if (!confirm('Are you sure you want to delete this post?')) return
   
-  const query = `mutation ($id:Int!){ 
-    deletePost(id:$id) 
-  }`
-  
   try {
-    const res = await gql(query, { id }, token.value)
-    if (res.data?.deletePost) {
-      message.value = 'Post deleted successfully'
-      messageType.value = 'alert-success'
-      await loadPosts()
-    } else {
-      message.value = 'Delete failed'
-      messageType.value = 'alert-danger'
-    }
+    await apiCall(`/posts/${id}`, {
+      method: 'DELETE'
+    })
+    message.value = 'Post deleted successfully'
+    messageType.value = 'alert-success'
+    await loadPosts()
   } catch (error: any) {
-    message.value = 'Error: ' + (error.message || 'Unknown error')
+    message.value = 'Error deleting post: ' + (error.data?.message || error.message || 'Unknown error')
     messageType.value = 'alert-danger'
   }
 }
