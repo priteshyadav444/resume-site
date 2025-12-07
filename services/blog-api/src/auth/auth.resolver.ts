@@ -5,11 +5,14 @@ import { AuthService } from './auth.service';
 export class AuthResolver {
   constructor(private authService: AuthService) {}
 
-  @Mutation(() => Object)
+  // Return the access token string directly so GraphQL can infer the type
+  @Mutation(() => String)
   async loginAdmin(
     @Args('email') email: string,
     @Args('password') password: string
   ) {
-    return this.authService.loginAdmin(email, password)
+    const res = await this.authService.loginAdmin(email, password)
+    // authService returns { accessToken }, return the token string
+    return res.accessToken
   }
 }

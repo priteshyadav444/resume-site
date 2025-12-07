@@ -18,7 +18,7 @@
         <div v-if="portfolioLoading" class="text-center py-5">
           <div class="spinner"></div>
         </div>
-        <div v-else-if="portfolioItems.length === 0" class="text-center py-5 text-muted">
+        <div v-else-if="!portfolioItems || portfolioItems.length === 0" class="text-center py-5 text-muted">
           <p>No featured projects yet.</p>
         </div>
         <div v-else class="row g-4">
@@ -51,7 +51,7 @@
         <div v-if="postsLoading" class="text-center py-5">
           <div class="spinner"></div>
         </div>
-        <div v-else-if="posts.length === 0" class="text-center py-5 text-muted">
+        <div v-else-if="!posts || posts.length === 0" class="text-center py-5 text-muted">
           <p>No blog posts yet.</p>
         </div>
         <div v-else class="row g-4">
@@ -115,9 +115,10 @@ function formatDate(value?: string | Date) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
-function truncateText(html: string, length: number) {
-  if (!html) return ''
-  const text = html.replace(/<[^>]*>/g, '').trim()
+function truncateText(html: any, length: number) {
+  if (html === null || html === undefined) return ''
+  const str = typeof html === 'string' ? html : String(html)
+  const text = str.replace(/<[^>]*>/g, '').trim()
   return text.length > length ? text.slice(0, length) + '...' : text
 }
 </script>

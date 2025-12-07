@@ -1,6 +1,4 @@
-import { defineNuxtConfig } from 'nuxt'
-
-export default defineNuxtConfig({
+export default {
   ssr: true,
   runtimeConfig: {
     public: {
@@ -9,4 +7,4 @@ export default defineNuxtConfig({
       siteUrl: process.env.SITE_URL || 'https://priteshyadav444.in'
     }
   }
-})
+} as any

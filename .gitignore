@@ -68,3 +68,5 @@ node_modules/
 .firebaserc
 firebase.json
 google4015cbc3e3198127.html
+apps/blog-frontend/.output/
+apps/blog-frontend/.nuxt
